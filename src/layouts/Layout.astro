@@ -1,0 +1,66 @@
+---
+const { title, description = 'Bio, background, and how-tos.' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname;
+const nav = [
+  { href: `${base}/`, label: 'Bio' },
+  { href: `${base}/background`, label: 'Background' },
+  { href: `${base}/howtos`, label: 'How-tos' },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href={`${base}/`}>Your Name</a>
+      <nav>
+        {nav.map((n) => (
+          <a href={n.href} aria-current={path.replace(/\/$/, '') === n.href.replace(/\/$/, '') ? 'page' : undefined}>{n.label}</a>
+        ))}
+      </nav>
+    </header>
+    <main><slot /></main>
+    <footer>© {new Date().getFullYear()} Your Name</footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #fdfdfb; --fg: #1c1c1a; --muted: #6b6b66; --accent: #0b6e4f; --line: #e4e4de;
+    --code: #f1f1ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #151514; --fg: #ececE6; --muted: #9a9a92; --accent: #5fd3a6; --line: #2c2c29;
+      --code: #1f1f1d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 18px/1.65 Georgia, 'Times New Roman', serif;
+  }
+  header, main, footer { max-width: 42rem; margin: 0 auto; padding: 1.25rem 1.25rem; }
+  header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: .5rem; border-bottom: 1px solid var(--line); }
+  .brand { font-weight: bold; font-size: 1.15rem; color: var(--fg); text-decoration: none; }
+  nav { display: flex; gap: 1.25rem; font-family: system-ui, sans-serif; font-size: .95rem; }
+  nav a { color: var(--muted); text-decoration: none; }
+  nav a:hover, nav a[aria-current] { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { line-height: 1.25; }
+  .meta { color: var(--muted); font-family: system-ui, sans-serif; font-size: .85rem; }
+  ul.posts { list-style: none; padding: 0; }
+  ul.posts li { padding: 1rem 0; border-bottom: 1px solid var(--line); }
+  ul.posts a { font-weight: bold; font-size: 1.1rem; }
+  pre { background: var(--code); padding: 1rem; overflow-x: auto; border-radius: 6px; font-size: .9rem; }
+  code { background: var(--code); padding: .1em .3em; border-radius: 4px; }
+  pre code { background: none; padding: 0; }
+  img { max-width: 100%; height: auto; }
+  footer { color: var(--muted); font-family: system-ui, sans-serif; font-size: .85rem; border-top: 1px solid var(--line); margin-top: 2rem; }
+</style>

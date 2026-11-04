@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Layout title="Sean Walden">
+  <h1>Hi, I'm Sean.</h1>
+  <p>
+    Write a short bio here: who you are, what you do, and what readers can expect to find on this site.
+  </p>
+  <p>
+    Find me on <a href="https://github.com/sfwalden67">GitHub</a> or reach me at
+    <a href="mailto:sfwalden@gmail.com">sfwalden@gmail.com</a>.
+  </p>
+  <p><a href={`${base}/howtos`}>Read my how-tos →</a></p>
+</Layout>
